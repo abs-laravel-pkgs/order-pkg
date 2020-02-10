@@ -1,4 +1,4 @@
-@if(config('ORDER_PKG.DEV'))
+@if(config('order-pkg.DEV'))
     <?php $order_pkg_prefix = '/packages/abs/order-pkg/src';?>
 @else
     <?php $order_pkg_prefix = '';?>
