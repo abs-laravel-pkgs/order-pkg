@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col-lg-12 maintitle">
+        <h1 class="mb-0 opacity-0"><strong>FAQ</strong></h1>
+    </div><!-- Column -->
+</div><!-- Row -->
+<div class="form-page-right-wrap">
+    <div class="form-page-right-wrap-header">
+        <h5 class="title">FREQUENTLY ASKED QUESTIONS</h5>
+    </div><!-- Form Page Header -->
+    <div class="form-page-right-wrap-body">
+        <div class="collapse-list-wrap">
+            <ul class="collapse-list" id="collapse-list-parent">
+                <li ng-repeat="(key, order) in $ctrl.orders">
+                    <div class="collapse-list-title">
+                        {{order.question}}
+                        <div class="btn-collapse-wrap">
+                            <button class="btn-collapse" data-toggle="collapse" data-target="#qstn_{{key}}"></button>
+                        </div>
+                    </div>
+                    <div class="collapse collapse-wrap" id="qstn_{{key}}" data-parent="#collapse-list-parent">
+                        <p>{{order.answer}}</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div><!-- Form Page Body -->
+</div><!-- Form Page Wrap -->
