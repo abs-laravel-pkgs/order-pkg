@@ -45,8 +45,13 @@ app.component('orderList', {
                 data: function(d) {}
             },
             columns: [
-                { data: 'action', searchable: false, class: 'action' },
-                { data: 'question', name: 'orders.question', searchable: true },
+                { data: 'action', name: 'action', class: 'action' },
+                { data: 'id', name: 'orders.id', searchable: true },
+                { data: 'date', name: 'orders.created_at', searchable: true },
+                { data: 'billing_name', name: 'ba.first_name', searchable: true },
+                { data: 'shipping_name', name: 'ba.first_name', searchable: true },
+                { data: 'total', name: 'orders.total', searchable: false },
+                { data: 'status', name: 'orders.status_id', searchable: true },
             ],
             "infoCallback": function(settings, start, end, max, total, pre) {
                 $('#table_info').html(total + '/' + max)

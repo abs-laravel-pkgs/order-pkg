@@ -35,25 +35,24 @@ class OrderController extends Controller {
 	}
 
 	public function getOrderList(Request $request) {
-		$orders = Order::withTrashed()
+		$orders = Order::
+			join('order_statuses as status', 'status.id', 'orders.status_id')
+			->join('addresses as ba', 'orders.billing_address_id', 'ba.id')
+			->join('addresses as sa', 'orders.shipping_address_id', 'sa.id')
+		// ->where('orders.created_by_id', Auth::id())
+			->where('orders.company_id', config('custom.company_id'))
 			->select([
-				'orders.id',
-				'orders.question',
-				DB::raw('orders.deleted_at as status'),
+				'orders.id as id',
+				DB::raw('DATE_FORMAT(orders.created_at,"%d %b %Y %h:%i %p") as date'),
+				DB::raw('CONCAT(ba.first_name," ",ba.last_name) as billing_name'),
+				DB::raw('CONCAT(sa.first_name," ",sa.last_name) as shipping_name'),
+				'orders.total as total',
+				'status.name as status',
 			])
-			->where('orders.company_id', Auth::user()->company_id)
-			->where(function ($query) use ($request) {
-				if (!empty($request->question)) {
-					$query->where('orders.question', 'LIKE', '%' . $request->question . '%');
-				}
-			})
-			->orderby('orders.id', 'desc');
+		// ->orderBy('orders.created_at', 'DESC')
+		;
 
 		return Datatables::of($orders)
-			->addColumn('question', function ($order) {
-				$status = $order->status ? 'green' : 'red';
-				return '<span class="status-indicator ' . $status . '"></span>' . $order->question;
-			})
 			->addColumn('action', function ($order) {
 				$img1 = asset('public/themes/' . $this->data['theme'] . '/img/content/table/edit-yellow.svg');
 				$img1_active = asset('public/themes/' . $this->data['theme'] . '/img/content/table/edit-yellow-active.svg');
@@ -152,6 +151,120 @@ class OrderController extends Controller {
 				'error' => $e->getMessage(),
 			]);
 		}
+	}
+	public function viewAdminOrder($order_id, Request $r) {
+		$order = Order::with([
+			'billingAddress',
+			'shippingAddress',
+			'shippingMethod',
+			'paymentMode',
+			'coupon',
+			'status',
+			'createdBy',
+			'logs',
+			'logs.status',
+			'orderItems',
+			'orderItems.item',
+			'orderItems.item.category',
+			'orderItems.item.category.packageType',
+			'orderItems.item.strength',
+			'orderItems.item.strength.type',
+		])->find($order_id);
+		if (!$order) {
+			return response()->json(['success' => false, 'error' => 'Order not found']);
+		}
+
+		$order->date = date('d/m/Y', strtotime($order->created_at));
+		$order->html_shipping_address = $order->shippingAddress->formatted_address;
+		$order->html_billing_address = $order->billingAddress->formatted_address;
+
+		$status_list = OrderStatus::getList();
+		foreach ($status_list as $status) {
+			if ($status->smsTemplate) {
+				// dd($status);
+				foreach ($status->smsTemplate->params as $key => &$param) {
+					if ($param->type_id == 140) {
+						//Customer Name
+						$param->default_value = $order->billingAddress->first_name . ' ' . $order->billingAddress->last_name;
+					} elseif ($param->type_id == 141) {
+						//Order Amount
+						$param->default_value = $order->total;
+					} elseif ($param->type_id == 143) {
+						//Current Date
+						$param->default_value = date('d M Y');
+					}
+				}
+			}
+		}
+
+		$extras = [
+			'status_list' => $status_list,
+		];
+		return response()->json(['success' => true, 'order' => $order, 'extras' => $extras]);
+	}
+
+	public function addOrderLog(Request $r) {
+		DB::beginTransaction();
+		$validator = Validator::make($r->all(), [
+			'log.order_id' => ['required'], //, 'confirmed'
+			'log.status_id' => ['required'], //, 'confirmed'
+			'log.notify_customer' => ['required'], //, 'confirmed'
+		]);
+		if ($validator->fails()) {
+			return response()->json([
+				'success' => false,
+				'error' => 'Validation Error',
+				'errors' => $validator->errors(),
+			]);
+		}
+
+		$order = Order::find($r->log['order_id']);
+		if (!$order) {
+			return response()->json([
+				'success' => false,
+				'error' => 'Order Not Found',
+			]);
+		}
+
+		$log = new OrderLog($r->log);
+		$log->date = date('Y-m-d H:i:s');
+		$log->notify_customer = $r->log['notify_customer'] == 'true' ? 1 : 0;
+		$log->created_by_id = Auth::id();
+		$log->save();
+
+		$order->status_id = $log->status_id;
+		$order->save();
+
+		// return (new OrderStatusChanged($order, $log))->render();
+		if ($log->notify_customer) {
+			$to_email = config('custom.DEBUG_EMAIL') ? config('custom.DEBUG_EMAIL_ADDRESS') : $order->billingAddress->email;
+			Mail::to($to_email)
+				->bcc('abdulpro@gmail.com')
+				->send(new OrderStatusChanged($order, $log));
+		}
+
+		if ($r->log['send_sms'] && $order->status->smsTemplate) {
+			if ($order->billingAddress->country->mobile_code) {
+
+				$mobile_code = config('custom.DEBUG_SMS') ? '91' : $order->billingAddress->country->mobile_code;
+				$mobile_number = config('custom.DEBUG_SMS') ? config('custom.DEBUG_MOBILE') : $order->billingAddress->mobile_number;
+
+				$message = $order->status->smsTemplate->content;
+				$message = vsprintf($message, $r->status[$order->status->smsTemplate->id]);
+
+				try {
+					Twilio::message('+' . $mobile_code . $mobile_number, $message);
+				} catch (\Exception $e) {
+					dd($e);
+				}
+			}
+		}
+
+		DB::commit();
+		return response()->json([
+			'success' => true,
+			'message' => 'Order Status Changed',
+		]);
 	}
 
 	public function deleteOrder($id) {
