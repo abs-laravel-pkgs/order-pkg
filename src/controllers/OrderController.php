@@ -2,6 +2,7 @@
 
 namespace Abs\OrderPkg;
 use Abs\OrderPkg\Order;
+use Abs\OrderPkg\OrderStatus;
 use App\Http\Controllers\Controller;
 use Auth;
 use Carbon\Carbon;
@@ -152,7 +153,8 @@ class OrderController extends Controller {
 			]);
 		}
 	}
-	public function viewAdminOrder($order_id, Request $r) {
+	public function viewOrderAdmin(Request $r) {
+		$order_id = $r->id;
 		$order = Order::with([
 			'billingAddress',
 			'shippingAddress',

@@ -5,6 +5,7 @@ Route::group(['namespace' => 'Abs\OrderPkg', 'middleware' => ['web', 'auth'], 'p
 	Route::get('/orders/get-list', 'OrderController@getOrderList')->name('getOrderList');
 	Route::get('/order/get-form-data', 'OrderController@getOrderFormData')->name('getOrderFormData');
 	Route::post('/order/save', 'OrderController@saveOrder')->name('saveOrder');
+	Route::get('/order/view', 'OrderController@viewOrderAdmin')->name('viewOrderAdmin');
 	Route::get('/order/delete/{id}', 'OrderController@deleteOrder')->name('deleteOrder');
 });
 

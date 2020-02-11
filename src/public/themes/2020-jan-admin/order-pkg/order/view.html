@@ -1,339 +1,313 @@
-<h3>Order #{{$ctrl.order.id}} | {{$ctrl.order.date}}</h3>
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item">
-        <a class="nav-link active" id="home-tab" data-toggle="tab" data-target="#home" role="tab" aria-controls="home" aria-selected="true">
-            Information
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" id="profile-tab" data-toggle="tab" data-target="#profile" role="tab" aria-controls="profile" aria-selected="false">
-            Comments
-        </a>
-    </li>
-</ul>
-<div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="card text-white bg-primary mb-3">
-                            <div class="card-header">Order # {{$ctrl.order.id}}</div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        Order Date
-                                    </div>
-                                    <div class="col-sm-6">
-                                        {{$ctrl.order.date}}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        Order Status
-                                    </div>
-                                    <div class="col-sm-6">
-                                        {{$ctrl.order.status.name}}
-                                    </div>
-                                </div>
-                                <div class="row" ng-if="$ctrl.order.coupon">
-                                    <div class="col-sm-6">
-                                        Coupon Code
-                                    </div>
-                                    <div class="col-sm-6">
-                                        {{$ctrl.order.coupon.code}}
-                                    </div>
-                                </div>
+<!-- Content Wrap -->
+<div class="content-wrap bl-form-fixed">
+    <div class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="page-header-content">
+                        <div class="page-header-inner page-title display-inline-block">
+                            <div class="previous-page">
+                                <a href="#!/purchase/order/list"><img src="./public/img/content/previous.svg" class="img-responsive"></a>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="card text-white bg-secondary mb-3">
-                            <div class="card-header">Account Information</div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-sm-6">
+                        </div><!-- Page Header Inner -->
+                        <div class="page-header-inner page-title display-inline-block">
+                            <h3 class="title">
+                                Order #{{$ctrl.order.id}} | {{$ctrl.order.date}}
+                                | Status : {{$ctrl.order.status.name}}
+                            </h3>
+                        </div><!-- Page Header Inner -->
+                        <div class="page-header-inner search display-inline-block">
+                        </div><!-- Page Header Inner -->
+                        <div class="page-header-inner alignment-right">
+                        </div><!-- Page Header Inner -->
+                    </div><!-- Page Header Content -->
+                </div><!-- Col Main -->
+            </div><!-- Row -->
+        </div><!-- Container -->
+    </div><!-- Page Header -->
+    <!-- Page Main Content -->
+    <div class="page-main-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="view-page">
+                        <div class="view-page-details">
+                            <ul class="view-infinity-list">
+                                <li>
+                                    <span class="view-infinity-list-label">
                                         Customer Name
-                                    </div>
-                                    <div class="col-sm-6">
+                                    </span>
+                                    <span class="view-infinity-list-value">
                                         {{$ctrl.order.created_by.first_name}} {{$ctrl.order.created_by.last_name}}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="view-infinity-list-label">
                                         Email
-                                    </div>
-                                    <div class="col-sm-6">
+                                    </span>
+                                    <span class="view-infinity-list-value">
                                         {{$ctrl.order.created_by.email}}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="card text-white bg-danger mb-3">
-                            <div class="card-header">Shipping Address</div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-sm-12">
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="view-infinity-list-label">
+                                        Coupon Code
+                                    </span>
+                                    <span class="view-infinity-list-value">
+                                        {{$ctrl.order.coupon.code}}
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="view-infinity-list-label">
+                                        Shipping Method
+                                    </span>
+                                    <span class="view-infinity-list-value">
+                                        {{$ctrl.order.shipping_method.name}} -
+                                        {{$ctrl.order.shipping_method.delivery_time}}
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="view-infinity-list-label">
+                                        Payment Details
+                                    </span>
+                                    <span class="view-infinity-list-value">
+                                        Payment Method : {{$ctrl.order.payment_mode.name}}<br />
+                                        Card Type : {{$ctrl.order.card.type.name}}
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="view-infinity-list-label">
+                                        Shipping Address
+                                    </span>
+                                    <span class="view-infinity-list-value">
                                         {{$ctrl.order.html_shipping_address}}
-                                    </div>
-                                </div>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="view-infinity-list-label">
+                                        Billing Address
+                                    </span>
+                                    <span class="view-infinity-list-value">
+                                        {{$ctrl.order.html_billing_address}}
+                                    </span>
+                                </li>
+                            </ul>
+                        </div><!-- View Page Details -->
+                    </div><!-- View Page -->
+                    <div class="view-page">
+                        <div class="tab-header">
+                            <div class="tab-wrap">
+                                <div class="isotope-filters animated" data-animation="fadeInLeft" data-animation-delay="300" id="">
+                                    <ul class="nav nav-pills nav-item-view" id="myTab">
+                                        <li class="active">
+                                            <a href="javascript:;" class="filter active it_filter" data-target="#order-items" data-toggle="tab" aria-expanded="true">
+                                                Items
+                                                ({{ $ctrl.order.order_items.length }})
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#order-updates" data-target="#order-updates" data-toggle="tab" aria-expanded="true" class="filter non-active" target="_self">
+                                                Updates
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div><!-- Filters -->
+                            </div><!-- Tab Wrap -->
+                        </div><!-- Tab Header -->
+                        <!-- BATCHED ITEMS -->
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active animated" id="order-items" data-animation="fadeInUp" data-animation-delay="300">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Product
+                                            </th>
+                                            <th>
+                                                Strength
+                                            </th>
+                                            <th>
+                                                Package
+                                            </th>
+                                            <th class="text-right">
+                                                Qty
+                                            </th>
+                                            <th class="text-right">
+                                                Special Price
+                                            </th>
+                                            <th class="text-right">
+                                                Sub Total
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="(key, order_item) in $ctrl.order.order_items">
+                                            <td>
+                                                {{order_item.item.category.name}}
+                                            </td>
+                                            <td>
+                                                {{order_item.item.strength.name}} {{order_item.item.strength.type.name}}
+                                            </td>
+                                            <td>
+                                                {{order_item.item.package_size}}
+                                                {{order_item.item.category.package_type.name}}
+                                            </td>
+                                            <td class="text-right">
+                                                {{order_item.qty}}
+                                            </td>
+                                            <td class="text-right">
+                                                {{order_item.rate}}
+                                            </td>
+                                            <td class="text-right">
+                                                {{order_item.price}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="5" class="text-right font-weight-bold">
+                                                Sub Total
+                                            </td>
+                                            <td class="text-right font-weight-bold">
+                                                {{$ctrl.order.sub_total}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="5" class="text-right font-weight-bold">
+                                                Shipping Charge
+                                            </td>
+                                            <td class="text-right font-weight-bold">
+                                                {{$ctrl.order.shipping_charge}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="5" class="text-right font-weight-bold">
+                                                Discount
+                                            </td>
+                                            <td class="text-right font-weight-bold">
+                                                {{$ctrl.order.discount}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="5" class="text-right font-weight-bold">
+                                                Total
+                                            </td>
+                                            <td class="text-right font-weight-bold">
+                                                {{$ctrl.order.total}}
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table><!-- Table -->
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="card text-white bg-success mb-3">
-                            <div class="card-header">Billing Address</div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        {{$ctrl.order.html_shipping_address}}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="card text-white bg-warning mb-3">
-                            <div class="card-header">Payment Details</div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        Payment Method
-                                    </div>
-                                    <div class="col-sm-6">
-                                        {{$ctrl.order.payment_mode.name}}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        Card Type
-                                    </div>
-                                    <div class="col-sm-6">
-                                        {{$ctrl.order.card.type.name}}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="card text-white bg-info mb-3">
-                            <div class="card-header">Shipping Method</div>
-                            <div class="card-body">
-                                {{$ctrl.order.shipping_method.name}} -
-                                {{$ctrl.order.shipping_method.delivery_time}}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="card bg-light mb-3">
-                    <div class="card-header">Items Ordered</div>
-                    <div class="card-body">
-                        <div class="table table-responsive">
-                            <table style="width: 100%;">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            Product
-                                        </th>
-                                        <th>
-                                            Strength
-                                        </th>
-                                        <th>
-                                            Package
-                                        </th>
-                                        <th class="text-right">
-                                            Qty
-                                        </th>
-                                        <th class="text-right">
-                                            Special Price
-                                        </th>
-                                        <th class="text-right">
-                                            Sub Total
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="(key, order_item) in $ctrl.order.order_items">
-                                        <td>
-                                            {{order_item.item.category.name}}
-                                        </td>
-                                        <td>
-                                            {{order_item.item.strength.name}} {{order_item.item.strength.type.name}}
-                                        </td>
-                                        <td>
-                                            {{order_item.item.package_size}}
-                                            {{order_item.item.category.package_type.name}}
-                                        </td>
-                                        <td class="text-right">
-                                            {{order_item.qty}}
-                                        </td>
-                                        <td class="text-right">
-                                            {{order_item.rate}}
-                                        </td>
-                                        <td class="text-right">
-                                            {{order_item.price}}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="5" class="text-right font-weight-bold">
-                                            Sub Total
-                                        </td>
-                                        <td class="text-right font-weight-bold">
-                                            {{$ctrl.order.sub_total}}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="5" class="text-right font-weight-bold">
-                                            Shipping Charge
-                                        </td>
-                                        <td class="text-right font-weight-bold">
-                                            {{$ctrl.order.shipping_charge}}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="5" class="text-right font-weight-bold">
-                                            Discount
-                                        </td>
-                                        <td class="text-right font-weight-bold">
-                                            {{$ctrl.order.discount}}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="5" class="text-right font-weight-bold">
-                                            Total
-                                        </td>
-                                        <td class="text-right font-weight-bold">
-                                            {{$ctrl.order.total}}
-                                        </td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card bg-light mb-3">
-                    <div class="card-header">Update Status &amp; Notify</div>
-                    <div class="card-body">
-                        <form id="order-log-form" action="" method="post">
-                            <input type="hidden" name="log[order_id]" value="{{$ctrl.order.id}}" class="required">
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    <md-input-container>
-                                        <label>New Status</label>
-                                        <md-select ng-model="$ctrl.log.status" [style.width]="'100%'">
-                                            <md-option ng-repeat="status in $ctrl.extras.status_list" ng-value="status">
-                                                {{status.name}}
-                                            </md-option>
-                                        </md-select>
-                                        <input type="hidden" name="log[status_id]" value="{{$ctrl.log.status.id}}" class="required">
-                                    </md-input-container>
-                                </div> <!-- col -->
-                                <div class="col-sm-3">
-                                    <md-switch ng-model="$ctrl.log.notify_customer">
-                                        Notify Customer
-                                    </md-switch>
-                                    <input type="hidden" name="log[notify_customer]" value="{{$ctrl.log.notify_customer}}">
-                                </div> <!-- col -->
-                                <div class="col-sm-3">
-                                    <md-switch ng-model="$ctrl.log.add_comments">
-                                        Add Comments
-                                    </md-switch>
-                                    <input type="hidden" name="log[add_comments]" value="{{$ctrl.log.add_comments}}">
-                                </div>
-                                <div class="col-sm-4" ng-show="$ctrl.log.add_comments">
-                                    <md-input-container class="md-block">
-                                        <label>Comments</label>
-                                        <textarea ng-model="$ctrl.log.comments" rows="2" md-select-on-focus></textarea>
-                                    </md-input-container>
-                                    <input type="hidden" name="log[comments]" value="{{$ctrl.log.comments}}">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <md-switch ng-model="$ctrl.log.send_sms" aria-label="Send SMS">
-                                        Send SMS
-                                    </md-switch>
-                                    <input type="hidden" name="log[send_sms]" value="{{$ctrl.log.send_sms}}">
-                                </div>
-                            </div> <!-- row -->
-                            <div class="row" ng-show="$ctrl.log.send_sms" ng-repeat="(key, status) in $ctrl.extras.status_list">
-                                <div class="col" ng-if="status.sms_template" ng-show="$ctrl.log.status.id == status.id">
-                                    <h5>SMS Template</h5><br />
-                                    <label>{{status.sms_template.content}}</label><br />
-                                    <div ng-repeat="(key2,param) in status.sms_template.params">
-                                        <div class="form-group row">
-                                            <label class="col-sm-4 col-form-label">
-                                                {{param.name}}
-                                            </label>
-                                            <div class="col-sm-4">
-                                                <input type="text" class="form-control required1" value="{{param.default_value}}" name="status[{{status.sms_template.id}}][{{param.id}}]">
+                            <div class="tab-pane fade animated" id="order-updates" data-animation="fadeInUp" data-animation-delay="300">
+                                <h6>
+                                    History
+                                </h6>
+                                <table style="width: 100%;" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Date
+                                            </th>
+                                            <th>
+                                                Status
+                                            </th>
+                                            <th>
+                                                Customer Notified
+                                            </th>
+                                            <th>
+                                                Comments
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="(key, log) in $ctrl.order.logs">
+                                            <td>
+                                                {{log.date}}
+                                            </td>
+                                            <td>
+                                                {{log.status.name}}
+                                            </td>
+                                            <td>
+                                                {{log.is_notified}}
+                                            </td>
+                                            <td>
+                                                {{log.comments}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <hr />
+                                <h6 class="card-header">
+                                    Update Status &amp; Notify
+                                </h6>
+                                <form id="order-log-form" action="" method="post">
+                                    <input type="hidden" name="log[order_id]" value="{{$ctrl.order.id}}" class="required">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <md-input-container>
+                                                <md-select ng-model="$ctrl.log.status" [style.width]="'100%'">
+                                                    <md-option ng-repeat="status in $ctrl.extras.status_list" ng-value="status">
+                                                        {{status.name}}
+                                                    </md-option>
+                                                </md-select>
+                                                <input type="hidden" name="log[status_id]" value="{{$ctrl.log.status.id}}" class="required">
+                                            </md-input-container>
+                                        </div> <!-- col -->
+                                        <div class="col-sm-3">
+                                            <md-switch ng-model="$ctrl.log.notify_customer">
+                                                Notify
+                                            </md-switch>
+                                            <input type="hidden" name="log[notify_customer]" value="{{$ctrl.log.notify_customer}}">
+                                        </div> <!-- col -->
+                                        <div class="col-sm-3">
+                                            <md-switch ng-model="$ctrl.log.add_comments">
+                                                Add Comment
+                                            </md-switch>
+                                            <input type="hidden" name="log[add_comments]" value="{{$ctrl.log.add_comments}}">
+                                        </div>
+                                        <div class="col-sm-3" ng-show="$ctrl.log.add_comments">
+                                            <md-input-container class="md-block">
+                                                <label>Comment</label>
+                                                <textarea ng-model="$ctrl.log.comments" rows="2" md-select-on-focus></textarea>
+                                            </md-input-container>
+                                            <input type="hidden" name="log[comments]" value="{{$ctrl.log.comments}}">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <md-switch ng-model="$ctrl.log.send_sms">
+                                                Send SMS
+                                            </md-switch>
+                                            <input type="hidden" name="log[send_sms]" value="{{$ctrl.log.send_sms}}">
+                                        </div>
+                                    </div> <!-- row -->
+                                    <div ng-show="$ctrl.log.send_sms" ng-repeat="(key, status) in $ctrl.extras.status_list">
+                                        <div ng-if="status.sms_template" ng-show="$ctrl.log.status.id == status.id">
+                                            <h5>
+                                                SMS Template
+                                            </h5>
+                                            <h6>
+                                                {{status.sms_template.content}}
+                                            </h6>
+                                            <div class="row">
+                                                <div class="form-group col-sm-3" ng-repeat="(key2,param) in status.sms_template.params">
+                                                    <label>
+                                                        {{param.name}}
+                                                    </label>
+                                                    <input type="text" class="form-control required1" value="{{param.default_value}}" name="status[{{status.sms_template.id}}][{{param.id}}]">
+                                                </div>
+                                                <div class="form-group col-sm-3">
+                                                    <label>&nbsp;</label>
+                                                    <input type="submit" class="btn btn-primary" value="Submit">
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div> <!-- row -->
-                            <input type="submit" class="btn btn-primary" value="Submit">
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card bg-light mb-3">
-                    <div class="card-header">Status &amp; Comments History</div>
-                    <div class="card-body">
-                        <div class="table table-responsive">
-                            <table style="width: 100%;">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            Date
-                                        </th>
-                                        <th>
-                                            Status
-                                        </th>
-                                        <th>
-                                            Customer Notified
-                                        </th>
-                                        <th>
-                                            Comments
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="(key, log) in $ctrl.order.logs">
-                                        <td>
-                                            {{log.date}}
-                                        </td>
-                                        <td>
-                                            {{log.status.name}}
-                                        </td>
-                                        <td>
-                                            {{log.is_notified}}
-                                        </td>
-                                        <td>
-                                            {{log.comments}}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                                    </div> <!-- row -->
+                                </form>
+                            </div><!-- Tab Panel -->
+                        </div><!-- Tab Content -->
+                    </div><!-- View Page -->
+                </div><!-- Column -->
+            </div><!-- Row -->
+        </div><!-- Container -->
+    </div><!-- Page Main Content -->
+</div><!-- Content Wrap -->

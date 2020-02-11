@@ -12,7 +12,14 @@ app.config(['$routeProvider', function($routeProvider) {
     when('/order-pkg/order/edit/:id', {
         template: '<order-form></order-form>',
         title: 'Edit Order',
-    });
+    }).
+
+    when('/order-pkg/order/view/:order_id', {
+        template: '<order-view></order-view>',
+        title: 'View Order',
+    })
+
+    ;
 }]);
 
 app.component('orderList', {
@@ -139,6 +146,106 @@ app.component('orderList', {
         }
 
         $rootScope.loading = false;
+    }
+});
+
+app.component('orderView', {
+    templateUrl: order_view_template_url,
+    controller: function(HelperService, $rootScope, $scope, $http, $location, $routeParams) {
+        $scope.loading = true;
+        var self = this;
+        self.hasPermission = HelperService.hasPermission;
+
+        self.order_list_url = laravel_routes['authedAngularPage'] + '/#!/order/list';
+        $http({
+            url: laravel_routes['viewOrderAdmin'],
+            method: 'GET',
+            params: {
+                id: $routeParams.order_id
+            }
+        }).then(function(response) {
+            if (!response.data.success) {
+                alert(response.data.error)
+                return;
+            }
+            self.order = response.data.order;
+            self.extras = response.data.extras;
+            self.log = {
+                notify_customer: false,
+                add_comments: false,
+            }
+            $rootScope.loading = false;
+        });
+        console.log($location);
+        var form_id = '#order-log-form';
+        var v = jQuery(form_id).validate({
+
+            ignore: "",
+            rules: {
+                'log[status_id]': {
+                    required: true,
+                },
+                'log[notify_customer]': {
+                    required: true,
+                },
+                'log[add_comments]': {
+                    required: true,
+                },
+                'log[comments]': {
+                    required: function() {
+                        return self.log.add_comments == true;
+                    },
+                },
+            },
+            messages: {
+                // 'batch_qty': {
+                //     required: 'Batch Quantity is required',
+                // },
+            },
+            submitHandler: function(form) {
+                // $('#modal_edit_batch_po_item_sub_btn').html('Submitting ...');
+                // $("#modal_edit_batch_po_item_sub_btn").prop('disabled', true);
+
+                let formData = new FormData($(form_id)[0]);
+                $.ajax({
+                        url: base_url + laravel_routes['addOrderLog'],
+                        method: "POST",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                    })
+                    .done(function(res) {
+                        if (!res.success) {
+                            // $mdToast.show({
+                            //     hideDelay: 0,
+                            //     position: 'top right',
+                            //     locals: { toastMessage: 'res.errors' },
+                            // })
+
+                            alert(res.errors);
+                            var errors = '';
+                            for (var i in res.errors) {
+                                errors += '<li>' + res.errors[i] + '</li>';
+                            }
+                            if (errors) {
+                                showNoty('error', errors);
+                            }
+                            // $('#modal_edit_batch_po_item_sub_btn').html('Submit');
+                            // $("#modal_edit_batch_po_item_sub_btn").prop('disabled', false);
+
+                        } else {
+                            showNoty('success', res.message);
+                            // $location.path('/order/view/' + self.order.id)
+                            $location.path('/order/list')
+                            $scope.$apply()
+                        }
+                    })
+                    .fail(function(xhr) {
+                        //$('#submit').button('reset');
+                        showNoty('error', 'Something went wrong at server.');
+                    });
+            }
+        });
     }
 });
 //------------------------------------------------------------------------------------------------------------------------
