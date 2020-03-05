@@ -208,7 +208,7 @@ app.component('orderView', {
 
                 let formData = new FormData($(form_id)[0]);
                 $.ajax({
-                        url: base_url + laravel_routes['addOrderLog'],
+                        url: laravel_routes['addOrderLog'],
                         method: "POST",
                         data: formData,
                         processData: false,
