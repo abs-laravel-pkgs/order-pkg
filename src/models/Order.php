@@ -3,6 +3,7 @@
 namespace Abs\OrderPkg;
 
 use Abs\HelperPkg\Traits\SeederTrait;
+use Abs\ShippingMethodPkg\ShippingMethod;
 use App\Company;
 use App\Config;
 use Illuminate\Database\Eloquent\Model;
