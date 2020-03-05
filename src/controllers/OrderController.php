@@ -2,6 +2,7 @@
 
 namespace Abs\OrderPkg;
 use Abs\OrderPkg\Order;
+use Abs\OrderPkg\OrderLog;
 use Abs\OrderPkg\OrderStatus;
 use App\Http\Controllers\Controller;
 use Auth;
