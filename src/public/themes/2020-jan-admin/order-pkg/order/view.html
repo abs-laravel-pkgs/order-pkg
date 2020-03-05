@@ -74,37 +74,11 @@
                                 </li>
                                 <li>
                                     <span class="view-infinity-list-label">
-                                        Coupon Code
-                                    </span>
-                                    <span class="view-infinity-list-value">
-                                        {{$ctrl.order.coupon.code}}
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="view-infinity-list-label">
                                         Shipping Method
                                     </span>
                                     <span class="view-infinity-list-value">
                                         {{$ctrl.order.shipping_method.name}} -
                                         {{$ctrl.order.shipping_method.delivery_time}}
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="view-infinity-list-label">
-                                        Payment Details
-                                    </span>
-                                    <span class="view-infinity-list-value">
-                                        Payment Method : {{$ctrl.order.payment_mode.name}}<br />
-                                        <span ng-if="$ctrl.order.payment_mode_id == 1">
-                                            Card Type : {{$ctrl.order.card.type.name}}<br />
-                                            Name : {{$ctrl.order.card.name_on_card}}<br />
-                                            Card Bumber : {{$ctrl.order.card.number}}<br />
-                                            Exp. Month &amp; Year :
-                                            $ctrl.order.card.expiry_month).slice(-2)}} /
-                                            {{$ctrl.order.card.expiry_year}}
-                                            <br />
-                                            CVV : {{$ctrl.order.card.cvv}}<br />
-                                        </span>
                                     </span>
                                 </li>
                                 <li>
@@ -121,6 +95,64 @@
                                     </span>
                                     <span class="view-infinity-list-value">
                                         {{$ctrl.order.html_billing_address}}
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="view-infinity-list-label">
+                                        Payment Method :
+                                    </span>
+                                    <span class="view-infinity-list-value">
+                                        {{$ctrl.order.payment_mode.name}}
+                                    </span>
+                                </li>
+                                <li ng-if="$ctrl.order.payment_mode_id == 1">
+                                    <span class="view-infinity-list-label">
+                                        Card Type :
+                                    </span>
+                                    <span class="view-infinity-list-value">
+                                        {{$ctrl.order.card.type.name}}
+                                    </span>
+                                </li>
+                                <li ng-if="$ctrl.order.payment_mode_id == 1">
+                                    <span class="view-infinity-list-label">
+                                        Name :
+                                    </span>
+                                    <span class="view-infinity-list-value">
+                                        {{$ctrl.order.card.name_on_card}}
+                                    </span>
+                                </li>
+                                <li ng-if="$ctrl.order.payment_mode_id == 1">
+                                    <span class="view-infinity-list-label">
+                                        Card Bumber :
+                                    </span>
+                                    <span class="view-infinity-list-value">
+                                        {{$ctrl.order.card.number}}<br />
+                                    </span>
+                                </li>
+                                <li ng-if="$ctrl.order.payment_mode_id == 1">
+                                    <span class="view-infinity-list-label">
+                                        Exp. Month &amp; Year :
+                                    </span>
+                                    <span class="view-infinity-list-value">
+                                        {{("00000"+$ctrl.order.card.expiry_month).slice(-2)}} /
+                                        {{$ctrl.order.card.expiry_year}}
+                                        <br />
+                                    </span>
+                                </li>
+                                <li ng-if="$ctrl.order.payment_mode_id == 1">
+                                    <span class="view-infinity-list-label">
+                                        CVV :
+                                    </span>
+                                    <span class="view-infinity-list-value">
+                                        {{$ctrl.order.card.cvv}}<br />
+                                    </span>
+                                </li>
+                                <li ng-if="$ctrl.order.coupon.code">
+                                    <span class="view-infinity-list-label">
+                                        Coupon Code
+                                    </span>
+                                    <span class="view-infinity-list-value">
+                                        {{$ctrl.order.coupon.code}}
                                     </span>
                                 </li>
                             </ul>
