@@ -180,6 +180,12 @@ class OrderController extends Controller {
 		$order->html_shipping_address = $order->shippingAddress->formatted_address;
 		$order->html_billing_address = $order->billingAddress->formatted_address;
 
+		if ($order->paymentMode->id == 1) {
+			//Card
+			$order->card->number = 'XXXX XXXX XXXX ' . substr($order->card->number, 14);
+			$order->card->type;
+		}
+
 		$status_list = OrderStatus::getList();
 		foreach ($status_list as $status) {
 			if ($status->smsTemplate) {

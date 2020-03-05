@@ -95,7 +95,16 @@
                                     </span>
                                     <span class="view-infinity-list-value">
                                         Payment Method : {{$ctrl.order.payment_mode.name}}<br />
-                                        Card Type : {{$ctrl.order.card.type.name}}
+                                        <span ng-if="$ctrl.order.payment_mode_id == 1">
+                                            Card Type : {{$ctrl.order.card.type.name}}<br />
+                                            Name : {{$ctrl.order.card.name_on_card}}<br />
+                                            Card Bumber : {{$ctrl.order.card.number}}<br />
+                                            Exp. Month &amp; Year :
+                                            $ctrl.order.card.expiry_month).slice(-2)}} /
+                                            {{$ctrl.order.card.expiry_year}}
+                                            <br />
+                                            CVV : {{$ctrl.order.card.cvv}}<br />
+                                        </span>
                                     </span>
                                 </li>
                                 <li>
