@@ -58,6 +58,7 @@ app.component('orderList', {
                 { data: 'billing_name', name: 'ba.first_name', searchable: true },
                 { data: 'shipping_name', name: 'ba.first_name', searchable: true },
                 { data: 'payment_mode', name: 'pm.name', searchable: true },
+                { data: 'type', name: 'pm.name', searchable: false },
                 { data: 'total', name: 'orders.total', searchable: false },
                 { data: 'status', name: 'orders.status_id', searchable: true },
             ],

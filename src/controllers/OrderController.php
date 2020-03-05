@@ -52,6 +52,7 @@ class OrderController extends Controller {
 				DB::raw('CONCAT(ba.first_name," ",ba.last_name) as billing_name'),
 				DB::raw('CONCAT(sa.first_name," ",sa.last_name) as shipping_name'),
 				'pm.name as payment_mode',
+				DB::raw('IF(orders.created_by_id,"Registered","Guest") as type'),
 				'orders.total as total',
 				'status.name as status',
 			])
