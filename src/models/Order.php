@@ -2,10 +2,14 @@
 
 namespace Abs\OrderPkg;
 
+use Abs\CardPkg\Card;
+use Abs\EntityPkg\Entity;
 use Abs\HelperPkg\Traits\SeederTrait;
+use Abs\ProductPkg\Item;
 use Abs\ShippingMethodPkg\ShippingMethod;
 use App\Company;
 use App\Config;
+use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
