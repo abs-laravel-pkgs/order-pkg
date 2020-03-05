@@ -21,6 +21,10 @@ class Order extends Model {
 		'coupon_id',
 	];
 
+	public function card() {
+		return $this->hasOne('Abs\CardPkg\Card', 'entity_id')->where('belongs_to_id', 1);
+	}
+
 	public function billingAddress() {
 		return $this->belongsTo('App\Address', 'billing_address_id');
 	}

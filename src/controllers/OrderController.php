@@ -50,7 +50,7 @@ class OrderController extends Controller {
 				'orders.total as total',
 				'status.name as status',
 			])
-		// ->orderBy('orders.created_at', 'DESC')
+			->orderBy('orders.id', 'DESC')
 		;
 
 		return Datatables::of($orders)
