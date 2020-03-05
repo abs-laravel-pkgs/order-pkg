@@ -5,10 +5,12 @@ use Abs\OrderPkg\Order;
 use Abs\OrderPkg\OrderLog;
 use Abs\OrderPkg\OrderStatus;
 use App\Http\Controllers\Controller;
+use App\Mail\OrderStatusChanged;
 use Auth;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Validator;
 use Yajra\Datatables\Datatables;
 
