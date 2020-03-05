@@ -43,6 +43,7 @@ class OrderController extends Controller {
 			join('order_statuses as status', 'status.id', 'orders.status_id')
 			->join('addresses as ba', 'orders.billing_address_id', 'ba.id')
 			->join('addresses as sa', 'orders.shipping_address_id', 'sa.id')
+			->join('payment_modes as pm', 'orders.payment_mode_id', 'pm.id')
 		// ->where('orders.created_by_id', Auth::id())
 			->where('orders.company_id', config('custom.company_id'))
 			->select([
@@ -50,6 +51,7 @@ class OrderController extends Controller {
 				DB::raw('DATE_FORMAT(orders.created_at,"%d %b %Y %h:%i %p") as date'),
 				DB::raw('CONCAT(ba.first_name," ",ba.last_name) as billing_name'),
 				DB::raw('CONCAT(sa.first_name," ",sa.last_name) as shipping_name'),
+				'pm.name as payment_mode',
 				'orders.total as total',
 				'status.name as status',
 			])

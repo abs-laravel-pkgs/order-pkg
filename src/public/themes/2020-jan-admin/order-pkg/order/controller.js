@@ -57,6 +57,7 @@ app.component('orderList', {
                 { data: 'date', name: 'orders.created_at', searchable: true },
                 { data: 'billing_name', name: 'ba.first_name', searchable: true },
                 { data: 'shipping_name', name: 'ba.first_name', searchable: true },
+                { data: 'payment_mode', name: 'pm.name', searchable: true },
                 { data: 'total', name: 'orders.total', searchable: false },
                 { data: 'status', name: 'orders.status_id', searchable: true },
             ],
@@ -228,13 +229,13 @@ app.component('orderView', {
                                 errors += '<li>' + res.errors[i] + '</li>';
                             }
                             if (errors) {
-                                showNoty('error', errors);
+                                custom_noty('error', errors);
                             }
                             // $('#modal_edit_batch_po_item_sub_btn').html('Submit');
                             // $("#modal_edit_batch_po_item_sub_btn").prop('disabled', false);
 
                         } else {
-                            showNoty('success', res.message);
+                            custom_noty('success', res.message);
                             // $location.path('/order/view/' + self.order.id)
                             $location.path('/order/list')
                             $scope.$apply()
@@ -242,7 +243,7 @@ app.component('orderView', {
                     })
                     .fail(function(xhr) {
                         //$('#submit').button('reset');
-                        showNoty('error', 'Something went wrong at server.');
+                        custom_noty('error', 'Something went wrong at server.');
                     });
             }
         });
