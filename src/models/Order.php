@@ -5,8 +5,9 @@ namespace Abs\OrderPkg;
 use Abs\CardPkg\Card;
 use Abs\EntityPkg\Entity;
 use Abs\HelperPkg\Traits\SeederTrait;
-use Abs\ProductPkg\Item;
-use Abs\ShippingMethodPkg\ShippingMethod;
+use App\Address;
+use App\Item;
+use App\ShippingMethod;
 use App\Company;
 use App\Config;
 use Auth;
@@ -31,7 +32,7 @@ class Order extends Model {
 	}
 
 	public function billingAddress() {
-		return $this->belongsTo('App\Address', 'billing_address_id');
+		return $this->belongsTo(Address::class, 'billing_address_id');
 	}
 
 	public function shippingAddress() {
