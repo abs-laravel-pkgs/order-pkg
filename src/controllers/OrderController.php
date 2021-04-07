@@ -16,7 +16,7 @@ use Yajra\Datatables\Datatables;
 
 class OrderController extends Controller {
 
-	private $company_id;
+	public $company_id;
 	public function __construct() {
 		$this->data['theme'] = config('custom.admin_theme');
 		$this->company_id = config('custom.company_id');
