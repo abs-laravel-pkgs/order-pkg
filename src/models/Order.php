@@ -76,7 +76,14 @@ class Order extends Model {
 		$order->fill($data);
 		$order->company_id = config('custom.company_id');
 		$order->sub_total = $cart['total'];
-		$order->shipping_charge = $shipping_method->charge;
+		if($order->shippingMethod->free_min_amount){
+			if($order->sub_total >= $order->shippingMethod->free_min_amount && $order->sub_total <= $order->shippingMethod->free_max_amount ){
+				$order->shipping_charge = 0;
+			}
+			else{
+				$order->shipping_charge = $shipping_method->charge;
+			}
+		}
 
 		// dd($data['coupon_code']);
 		if (isset($data['coupon_code'])) {
