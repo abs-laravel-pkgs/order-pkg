@@ -7,7 +7,7 @@
                     <div class="page-header-content">
                         <div class="page-header-inner page-title display-inline-block">
                             <div class="previous-page">
-                                <a href="#!/purchase/order/list"><img src="./public/img/content/previous.svg" class="img-responsive"></a>
+                                <a href="#!/order-pkg/order/list"><img src="./public/img/content/previous.svg" class="img-responsive"></a>
                             </div>
                         </div><!-- Page Header Inner -->
                         <div class="page-header-inner page-title display-inline-block">
@@ -103,6 +103,14 @@
                                     </span>
                                     <span class="view-infinity-list-value">
                                         {{$ctrl.order.payment_mode.name}}
+                                    </span>
+                                </li>
+                                <li>
+                                    <span class="view-infinity-list-label">
+                                        IP Address :
+                                    </span>
+                                    <span class="view-infinity-list-value">
+                                        {{$ctrl.order.ip}}
                                     </span>
                                 </li>
                                 <li ng-if="$ctrl.order.payment_mode_id == 1">

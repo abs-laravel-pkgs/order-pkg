@@ -13,6 +13,7 @@ use App\Config;
 use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Http\Request;
 
 class Order extends Model {
 	use SeederTrait;
@@ -25,6 +26,7 @@ class Order extends Model {
 		'shipping_method_id',
 		'payment_mode_id',
 		'coupon_id',
+		'ip',
 	];
 
 	public function card() {

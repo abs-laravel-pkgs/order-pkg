@@ -181,7 +181,6 @@ app.component('orderView', {
         console.log($location);
         var form_id = '#order-log-form';
         var v = jQuery(form_id).validate({
-
             ignore: "",
             rules: {
                 'log[status_id]': {
@@ -238,7 +237,7 @@ app.component('orderView', {
                         } else {
                             custom_noty('success', res.message);
                             // $location.path('/order/view/' + self.order.id)
-                            $location.path('/order/list')
+                            $location.path('/order-pkg/order/list');
                             $scope.$apply()
                         }
                     })
