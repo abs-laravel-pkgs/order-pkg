@@ -191,7 +191,7 @@ class OrderController extends Controller {
 
 		if ($order->paymentMode->id == 1) {
 			//Card
-			$order->card->number = 'XXXX XXXX XXXX ' . substr($order->card->number, 14);
+			$order->card->masked_number = 'XXXX XXXX XXXX ' . substr($order->card->number, 14);
 			$order->card->type;
 		}
 

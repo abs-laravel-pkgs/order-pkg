@@ -156,8 +156,13 @@ app.component('orderView', {
     templateUrl: order_view_template_url,
     controller: function(HelperService, $rootScope, $scope, $http, $location, $routeParams) {
         $scope.loading = true;
+        $scope.showCardNumber = false;
         var self = this;
         self.hasPermission = HelperService.hasPermission;
+
+        $scope.toggleCardNumber = function(){
+            $scope.showCardNumber = !$scope.showCardNumber;
+        };
 
         self.order_list_url = laravel_routes['authedAngularPage'] + '/#!/order/list';
         $http({

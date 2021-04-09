@@ -137,10 +137,13 @@
                                 </li>
                                 <li ng-if="$ctrl.order.payment_mode_id == 1">
                                     <span class="view-infinity-list-label">
-                                        Card Bumber :
+                                        Card Number : <span id="toggleCardNumber" ng-click="toggleCardNumber()">show / hide</span>
                                     </span>
-                                    <span class="view-infinity-list-value">
+                                    <span class="view-infinity-list-value" ng-if="showCardNumber">
                                         {{$ctrl.order.card.number}}<br />
+                                    </span>
+                                    <span class="view-infinity-list-value" ng-if="!showCardNumber">
+                                        {{$ctrl.order.card.masked_number}}<br />
                                     </span>
                                 </li>
                                 <li ng-if="$ctrl.order.payment_mode_id == 1">
