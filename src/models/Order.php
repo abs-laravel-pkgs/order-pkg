@@ -6,6 +6,7 @@ use Abs\CardPkg\Card;
 use Abs\EntityPkg\Entity;
 use Abs\HelperPkg\Traits\SeederTrait;
 use App\Address;
+use App\Coupon;
 use App\Item;
 use App\ShippingMethod;
 use App\Company;
