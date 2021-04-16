@@ -44,7 +44,7 @@ class OrderController extends Controller {
 			->join('addresses as ba', 'orders.billing_address_id', 'ba.id')
 			->join('addresses as sa', 'orders.shipping_address_id', 'sa.id')
 			->join('payment_modes as pm', 'orders.payment_mode_id', 'pm.id')
-			->join('users as cb', 'orders.created_by_id', 'cb.id')
+			//->join('users as cb', 'orders.created_by_id', 'cb.id')
 		// ->where('orders.created_by_id', Auth::id())
 			->where('orders.company_id', config('custom.company_id'))
 			->select([
@@ -53,8 +53,8 @@ class OrderController extends Controller {
 				DB::raw('CONCAT(ba.first_name," ",ba.last_name) as billing_name'),
 				DB::raw('CONCAT(sa.first_name," ",sa.last_name) as shipping_name'),
 				'pm.name as payment_mode',
-				'cb.email as email',
-				'cb.mobile_number as mobile_number',
+				'ba.email as email',
+				'ba.mobile_number as mobile_number',
 				DB::raw('IF(orders.created_by_id,"Registered","Guest") as type'),
 				'orders.total as total',
 				'status.name as status',

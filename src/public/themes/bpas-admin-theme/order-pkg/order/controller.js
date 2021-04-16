@@ -54,7 +54,7 @@ app.component('orderList', {
             columns: [
                 { data: 'id', name: 'orders.id', searchable: true },
                 { data: 'date', name: 'orders.created_at', searchable: true },
-                { data: 'email', name: 'cb.email', searchable: true },
+                { data: 'email', name: 'ba.email', searchable: true },
                 { data: 'billing_name', name: 'ba.first_name', searchable: true },
                 { data: 'shipping_name', name: 'ba.first_name', searchable: true },
                 { data: 'payment_mode', name: 'pm.name', searchable: true },
