@@ -8,6 +8,7 @@ use Abs\HelperPkg\Traits\SeederTrait;
 use App\Address;
 use App\Coupon;
 use App\Item;
+use App\Models\BaseModel;
 use App\ShippingMethod;
 use App\Company;
 use App\Config;
@@ -16,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 
-class Order extends Model {
+class Order extends BaseModel {
 	use SeederTrait;
 	use SoftDeletes;
 	protected $table = 'orders';
@@ -67,6 +68,10 @@ class Order extends Model {
 	}
 
 	public function orderItems() {
+		return $this->hasMany('App\OrderItem');
+	}
+
+	public function items() {
 		return $this->hasMany('App\OrderItem');
 	}
 
