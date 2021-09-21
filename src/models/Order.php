@@ -3,6 +3,7 @@
 namespace Abs\OrderPkg;
 
 use Abs\CardPkg\Card;
+use Abs\CompanyPkg\Traits\CompanyableTrait;
 use Abs\EntityPkg\Entity;
 use Abs\HelperPkg\Traits\SeederTrait;
 use App\Address;
@@ -20,16 +21,86 @@ use Illuminate\Http\Request;
 class Order extends BaseModel {
 	use SeederTrait;
 	use SoftDeletes;
+	use CompanyableTrait;
 	protected $table = 'orders';
 	public $timestamps = true;
 	protected $fillable = [
-		'billing_address_id',
-		'shipping_address_id',
-		'shipping_method_id',
-		'payment_mode_id',
-		'coupon_id',
+		'ref_no',
+		'sub_total',
+		'total',
+		'use_shipping_address',
+		//'billing_address_id',
+		//'shipping_address_id',
+		//'shipping_method_id',
+		//'payment_mode_id',
+		//'coupon_id',
 		'ip',
 	];
+	protected $casts = [
+		'use_shipping_address' => 'bool',
+		'sub_total' => 'float',
+		'shipping_charge' => 'float',
+		'total' => 'float',
+	];
+	public $fillableRelationships = [
+		'company',
+		'shipping_address',
+		'billing_address',
+		'shipping_method',
+		'status',
+		'order_items',
+		'payment_mode',
+	];
+
+	public $relationshipRules = [
+		'shipping_address' => [
+			'required',
+		],
+		'shipping_method' => [
+			'required',
+		],
+	];
+
+	// Relationships to auto load
+	public static function relationships($action = '', $format = ''): array
+	{
+		$relationships = [];
+
+		if ($action === 'index') {
+			$relationships = array_merge($relationships, [
+				'billingAddress',
+				'paymentMode',
+				'status',
+			]);
+		} elseif ($action === 'read') {
+			$relationships = array_merge($relationships, [
+				//'logo',
+			]);
+		} elseif ($action === 'save') {
+			$relationships = array_merge($relationships, [
+			]);
+		} elseif ($action === 'options') {
+			$relationships = array_merge($relationships, [
+			]);
+		}
+
+		return $relationships;
+	}
+
+	public static function appendRelationshipCounts($action = '', $format = ''): array
+	{
+		$relationships = [];
+
+		if ($action === 'index') {
+			$relationships = array_merge($relationships, [
+			]);
+		} elseif ($action === 'options') {
+			$relationships = array_merge($relationships, [
+			]);
+		}
+
+		return $relationships;
+	}
 
 	public function card() {
 		return $this->hasOne('Abs\CardPkg\Card', 'entity_id')->where('belongs_to_id', 1);
