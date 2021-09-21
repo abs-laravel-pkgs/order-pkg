@@ -29,12 +29,8 @@ class Order extends BaseModel {
 		'sub_total',
 		'total',
 		'use_shipping_address',
-		//'billing_address_id',
-		//'shipping_address_id',
-		//'shipping_method_id',
-		//'payment_mode_id',
-		//'coupon_id',
 		'ip',
+		'key',
 	];
 	protected $casts = [
 		'use_shipping_address' => 'bool',
