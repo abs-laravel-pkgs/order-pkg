@@ -70,7 +70,13 @@ class Order extends BaseModel {
 			]);
 		} elseif ($action === 'read') {
 			$relationships = array_merge($relationships, [
-				//'logo',
+				'shippingAddress.country',
+				'shippingAddress.state',
+				'billingAddress.country',
+				'billingAddress.state',
+				'paymentMode',
+				'shippingMethod',
+				'status',
 			]);
 		} elseif ($action === 'save') {
 			$relationships = array_merge($relationships, [
