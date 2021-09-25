@@ -14,9 +14,7 @@ use App\ShippingMethod;
 use App\Company;
 use App\Config;
 use Auth;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Http\Request;
 
 class Order extends BaseModel {
 	use SeederTrait;
@@ -76,10 +74,8 @@ class Order extends BaseModel {
 				'billingAddress.state',
 				'paymentMode',
 				'shippingMethod',
+				'orderItems.item',
 				'status',
-			]);
-		} elseif ($action === 'save') {
-			$relationships = array_merge($relationships, [
 			]);
 		} elseif ($action === 'options') {
 			$relationships = array_merge($relationships, [
@@ -87,6 +83,61 @@ class Order extends BaseModel {
 		}
 
 		return $relationships;
+	}
+
+	// Relationships to auto load
+	public function setVisibleAttributes($action = '', $format = ''): void
+	{
+		if ($action === 'index') {
+			$this->setVisible([
+				'id',
+				'created_at',
+				'email',
+				'mobile_number',
+				'billingAddress',
+				'paymentMode',
+				'type',
+				'status',
+				'total',
+				'key',
+			]);
+			$this->billingAddress->setVisible([
+				'first_name',
+				'last_name',
+				'email',
+				'mobile_number',
+			]);
+		} elseif ($action === 'read') {
+			$this->setVisible([
+				'id',
+				'created_at',
+				'email',
+				'mobile_number',
+				'ref_no',
+				'use_shipping_address',
+				'ip',
+				'shipping_charge',
+				'sub_total',
+				'total',
+				'key',
+				'billingAddress',
+				'shippingAddress',
+				'shippingMethod',
+				'paymentMode',
+				'orderItems',
+				'type',
+				'status',
+			]);
+			if($this->billingAddress){
+				//$this->billingAddress->setVisible([
+				//	'first_name',
+				//	'last_name',
+				//	'email',
+				//	'mobile_number',
+				//]);
+			}
+		} elseif ($action === 'options') {
+		}
 	}
 
 	public static function appendRelationshipCounts($action = '', $format = ''): array
