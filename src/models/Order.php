@@ -74,7 +74,7 @@ class Order extends BaseModel {
 				'billingAddress.state',
 				'paymentMode',
 				'shippingMethod',
-				'orderItems.item',
+        'orderItems.item.category',
 				'status',
 			]);
 		} elseif ($action === 'options') {
