@@ -155,6 +155,10 @@ class Order extends BaseModel {
 		return $relationships;
 	}
 
+  // -------------------------------------------------
+  // Relations ---------------------------------------
+  // -------------------------------------------------
+
 	public function card() {
 		return $this->hasOne('Abs\CardPkg\Card', 'entity_id')->where('belongs_to_id', 1);
 	}
