@@ -75,7 +75,10 @@ class Order extends BaseModel {
 				'paymentMode',
 				'shippingMethod',
         'orderItems.item.category',
-				'status',
+        'status',
+        'logs.order',
+        'logs.status',
+        'logs.createdBy',
 			]);
 		} elseif ($action === 'options') {
 			$relationships = array_merge($relationships, [
@@ -126,7 +129,8 @@ class Order extends BaseModel {
 				'paymentMode',
 				'orderItems',
 				'type',
-				'status',
+        'status',
+        'logs',
 			]);
 			if($this->billingAddress){
 				//$this->billingAddress->setVisible([

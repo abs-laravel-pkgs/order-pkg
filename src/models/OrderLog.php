@@ -4,23 +4,38 @@ namespace Abs\OrderPkg;
 use Abs\HelperPkg\Traits\SeederTrait;
 use App\Company;
 use App\Config;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class OrderLog extends Model {
 	use SeederTrait;
 	protected $table = 'order_logs';
 	public $timestamps = false;
-	protected $fillable = [
-		'order_id',
-		'date',
-		'notify_customer',
-		'status_id',
-		'comments',
-	];
+  protected $fillable = [
+    'order_id',
+    'date',
+    'notify_customer',
+    'status_id',
+    'comments',
+  ];
+  protected $casts = [
+    'notify_customer' => 'bool',
+  ];
 
-	public function status() {
-		return $this->belongsTo('App\OrderStatus', 'status_id');
-	}
+  public function status(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+  {
+    return $this->belongsTo('App\OrderStatus', 'status_id');
+  }
+
+  public function order(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+  {
+    return $this->belongsTo(\App\Order::class, 'order_id');
+  }
+
+  public function createdBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+  {
+    return $this->belongsTo(User::class, 'created_by_id');
+  }
 
 	public static function createFromObject($record_data) {
 
@@ -57,4 +72,28 @@ class OrderLog extends Model {
 		return $record;
 	}
 
+
+  // Relationships to auto load
+  public static function relationships($action = '', $format = ''): array
+  {
+    $relationships = [];
+
+    if ($action === 'index') {
+//      $relationships = array_merge($relationships, [
+//        'billingAddress',
+//        'paymentMode',
+//        'status',
+//      ]);
+    } elseif ($action === 'read') {
+      $relationships = array_merge($relationships, [
+        'status',
+        'createdBy',
+      ]);
+    } elseif ($action === 'options') {
+      $relationships = array_merge($relationships, [
+      ]);
+    }
+
+    return $relationships;
+  }
 }
