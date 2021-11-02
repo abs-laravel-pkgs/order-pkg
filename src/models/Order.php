@@ -172,7 +172,7 @@ class Order extends BaseModel {
 	}
 
 	public function shippingAddress() {
-		return $this->belongsTo('App\Address', 'shipping_address_id');
+		return $this->belongsTo(Address::class, 'shipping_address_id');
 	}
 
 	public function shippingMethod() {
