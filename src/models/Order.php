@@ -10,11 +10,13 @@ use App\Address;
 use App\Coupon;
 use App\Item;
 use App\Models\BaseModel;
+use App\Models\Echeck;
 use App\ShippingMethod;
 use App\Company;
 use App\Config;
 use Auth;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Arr;
 
 class Order extends BaseModel {
 	use SeederTrait;
@@ -214,7 +216,7 @@ class Order extends BaseModel {
 		$order->fill($data);
 		$order->company_id = config('custom.company_id');
 		$order->sub_total = $cart['total'];
-		if($order->shippingMethod->free_min_amount){
+		if(isset($order->shippingMethod->free_min_amount) && $order->shippingMethod->free_min_amount){
 			if($order->sub_total >= $order->shippingMethod->free_min_amount && $order->sub_total <= $order->shippingMethod->free_max_amount ){
 				$order->shipping_charge = 0;
 			}
@@ -223,7 +225,6 @@ class Order extends BaseModel {
 			}
 		}
 
-		// dd($data['coupon_code']);
 		if (isset($data['coupon_code'])) {
 			$coupon = Coupon::where('company_id', config('custom.company_id'))->where('code', $data['coupon_code'])->first();
 			if ($coupon) {
@@ -248,6 +249,19 @@ class Order extends BaseModel {
 		}
 
 		$order->status_id = $default_order_status->name;
+
+    $billingAddress = Address::findOrFail(Arr::get($data, 'billing_address_id'));
+    $order->billingAddress()->associate($billingAddress);
+
+    $shippingAddress = Address::findOrFail(Arr::get($data, 'shipping_address_id'));
+    $order->shippingAddress()->associate($shippingAddress);
+
+    $shippingMethod = \App\Models\ShippingMethod::findOrFail(Arr::get($data, 'shipping_method_id'));
+    $order->shippingMethod()->associate($shippingMethod);
+
+    $paymentMode = \App\Models\PaymentMode::findOrFail(Arr::get($data, 'payment_mode_id'));
+    $order->paymentMode()->associate($paymentMode);
+
 		$order->save();
 
 		foreach ($cart['items'] as $item_id => $cart_item) {
@@ -260,18 +274,22 @@ class Order extends BaseModel {
 			$order_item->price = $order_item->qty * $order_item->rate;
 			$order_item->save();
 		}
-		// dd($r->all());
-		if ($data['payment_mode_id'] == 1) {
+
+		if (Arr::get($data,'payment_mode.code') == 'offline_cc') {
 			$card = new Card;
 			$card->fill($data['card']);
 			$card->company_id = $order->company_id;
 			$card->belongs_to_id = 1; //ORDER
 			$card->entity_id = $order->id;
 			$card->save();
-		}
-		// Cart::emptyCart();
+		} else if (Arr::get($data,'payment_mode.code') == 'ach-echeck') {
+      $echeck = new Echeck();
+      $echeck->fill(Arr::get($data, 'echeck'));
+      $echeck->order()->associate($order);
+      $echeck->save();
+    }
 
-		return $order;
+      return $order;
 	}
 	public static function createFromObject($record_data) {
 
