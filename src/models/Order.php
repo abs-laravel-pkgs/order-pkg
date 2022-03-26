@@ -205,12 +205,17 @@ class Order extends BaseModel {
 		return $this->hasMany('App\OrderItem');
 	}
 
-	public function items() {
-		return $this->hasMany('App\OrderItem');
-	}
+  public function items() {
+    return $this->hasMany('App\OrderItem');
+  }
+
+  public function echeck() {
+    return $this->hasOne(Echeck::class);
+  }
 
 	public static function createOrder($data, $cart) {
 		$shipping_method = ShippingMethod::findOrFail($data['shipping_method_id']);
+    $shippingMethod = \App\Models\ShippingMethod::findOrFail(Arr::get($data, 'shipping_method_id'));
 
 		$order = new Order;
 		$order->fill($data);
@@ -256,7 +261,6 @@ class Order extends BaseModel {
     $shippingAddress = Address::findOrFail(Arr::get($data, 'shipping_address_id'));
     $order->shippingAddress()->associate($shippingAddress);
 
-    $shippingMethod = \App\Models\ShippingMethod::findOrFail(Arr::get($data, 'shipping_method_id'));
     $order->shippingMethod()->associate($shippingMethod);
 
     $paymentMode = \App\Models\PaymentMode::findOrFail(Arr::get($data, 'payment_mode_id'));

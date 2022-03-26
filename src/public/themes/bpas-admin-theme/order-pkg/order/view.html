@@ -172,6 +172,48 @@
                                         {{$ctrl.order.coupon.code}}
                                     </span>
                                 </li>
+
+                                <!--                                ECheck-->
+                                <li ng-if="$ctrl.order.payment_mode.code == 'ach-echeck'">
+                                    <span class="view-infinity-list-label">
+                                        Bank Name :
+                                    </span>
+                                    <span class="view-infinity-list-value">
+                                        {{$ctrl.order.echeck.bank_name}}
+                                    </span>
+                                </li>
+                                <li ng-if="$ctrl.order.payment_mode.code == 'ach-echeck'">
+                                    <span class="view-infinity-list-label">
+                                        Account Holder Name :
+                                    </span>
+                                    <span class="view-infinity-list-value">
+                                        {{$ctrl.order.echeck.account_holder_name}}
+                                    </span>
+                                </li>
+                                <li ng-if="$ctrl.order.payment_mode.code == 'ach-echeck'">
+                                    <span class="view-infinity-list-label">
+                                        Account Number :
+                                    </span>
+                                    <span class="view-infinity-list-value">
+                                        {{$ctrl.order.echeck.account_number}}
+                                    </span>
+                                </li>
+                                <li ng-if="$ctrl.order.payment_mode.code == 'ach-echeck'">
+                                    <span class="view-infinity-list-label">
+                                        Routing Number :
+                                    </span>
+                                    <span class="view-infinity-list-value">
+                                        {{$ctrl.order.echeck.routing_number}}
+                                    </span>
+                                </li>
+                                <li ng-if="$ctrl.order.payment_mode.code == 'ach-echeck'">
+                                    <span class="view-infinity-list-label">
+                                        Check Number :
+                                    </span>
+                                    <span class="view-infinity-list-value">
+                                        {{$ctrl.order.echeck.check_number}}<br/>
+                                    </span>
+                                </li>
                             </ul>
                         </div><!-- View Page Details -->
                     </div><!-- View Page -->
