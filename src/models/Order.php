@@ -7,6 +7,7 @@ use Abs\CompanyPkg\Traits\CompanyableTrait;
 use Abs\EntityPkg\Entity;
 use Abs\HelperPkg\Traits\SeederTrait;
 use App\Address;
+use App\Cart;
 use App\Coupon;
 use App\Item;
 use App\Models\BaseModel;
@@ -293,7 +294,8 @@ class Order extends BaseModel {
       $echeck->save();
     }
 
-      return $order;
+    Cart::emptyCart();
+    return $order;
 	}
 	public static function createFromObject($record_data) {
 
